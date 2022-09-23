@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import {increment} from "../redux/cart/actions";
+import {decrement, increment} from "../redux/cart/actions";
 import Swal from "sweetalert2";
 
 
@@ -8,6 +8,18 @@ const ShoppingCart = () => {
     const {cart} = useSelector((state => state.shoppingCart));
     const handleIncrement = (productId) => {
         dispatch(increment(productId))
+        Swal.fire({
+            title: "Cart Updated",
+            icon: "success",
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 3000,
+            toast: true,
+            position: 'top',
+        });
+    }
+    const handleDecrement = (productId) => {
+        dispatch(decrement(productId))
         Swal.fire({
             title: "Cart Updated",
             icon: "success",
@@ -53,12 +65,15 @@ const ShoppingCart = () => {
                                 </td>
                                 <td className="align-middle">{product.price}</td>
                                 <td className="align-middle">
-                                    <button onClick={() => handleIncrement(product.id)}
-                                            className="btn btn-sm btn-dark me-2">
+                                    <button
+                                        onClick={() => handleIncrement(product.id)}
+                                        className="btn btn-sm btn-dark me-2">
                                         +
                                     </button>
                                     <span>{product.qty}</span>
-                                    <button className="btn btn-sm btn-dark ms-2">
+                                    <button
+                                        onClick={() => handleDecrement(product.id)}
+                                        className="btn btn-sm btn-dark ms-2">
                                         -
                                     </button>
                                 </td>
